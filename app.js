@@ -42,7 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilters();
   }, 200));
 
-  // Keyboard shortcut: Escape closes modal
+  // ---- Modal events (via addEventListener, bukan inline onclick) ----
+  const overlay  = document.getElementById('modalOverlay');
+  const modalBox = document.getElementById('modalBox');
+  const closeBtn = document.getElementById('modalCloseBtn');
+
+  // Klik tombol ✕
+  closeBtn.addEventListener('click', () => closeModal());
+
+  // Klik di luar modal (pada overlay gelap)
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  // Pastikan klik di dalam modal box tidak menutup
+  modalBox.addEventListener('click', (e) => e.stopPropagation());
+
+  // Tombol Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {

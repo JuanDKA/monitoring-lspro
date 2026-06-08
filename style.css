@@ -734,7 +734,7 @@ body {
 }
 
 .modal-overlay.is-open {
-  display: flex;
+  display: flex !important;
   animation: fadeIn 0.2s ease;
 }
 
