@@ -192,7 +192,7 @@ function applyFilters() {
     if (end) {
       daysLeft = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
       if (daysLeft < 0)      status = 'kadaluarsa';
-      else if (daysLeft <= 90) status = 'segera';
+      else if (daysLeft <= 30) status = 'segera';
       else                    status = 'aktif';
     }
 
@@ -443,8 +443,7 @@ function openModal(idx) {
   `;
 
   const overlay = document.getElementById('modalOverlay');
-  overlay.style.display = '';
-  overlay.removeAttribute('style');
+  overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
