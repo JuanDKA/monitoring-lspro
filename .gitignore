@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Excel temporary files
+~$*.xlsx
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python script (tidak perlu dipublikasikan)
+extract_data.py
