@@ -184,7 +184,34 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   transition: var(--transition);
-  cursor: default;
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-card.active-total {
+  border-color: var(--blue);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+.stat-card.active-aktif {
+  border-color: var(--green);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--green);
+}
+.stat-card.active-segera {
+  border-color: var(--orange);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--orange);
+}
+.stat-card.active-kadaluarsa {
+  border-color: var(--red);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--red);
 }
 
 .stat-card:hover {
@@ -382,46 +409,7 @@ body {
 .view-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
 .view-btn.active { background: var(--bg-card-hover); color: var(--text-primary); }
 
-/* ---- Category Pills ---- */
-.category-pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 100px;
-  color: var(--text-secondary);
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  white-space: nowrap;
-}
-
-.pill:hover { border-color: var(--blue); color: var(--blue-l); }
-
-.pill.active {
-  background: rgba(59,130,246,0.18);
-  border-color: rgba(59,130,246,0.5);
-  color: var(--blue-l);
-}
-
-.pill-count {
-  background: rgba(255,255,255,0.1);
-  border-radius: 100px;
-  padding: 1px 7px;
-  font-size: 0.75rem;
-}
-
-.pill.active .pill-count { background: rgba(59,130,246,0.3); }
+/* (Removed category pills CSS) */
 
 /* ---- Data Grid ---- */
 .data-grid {

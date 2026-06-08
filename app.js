@@ -118,7 +118,6 @@ function switchTab(tab, resetFiltersFlag = true) {
 
   // Rebuild category filter options
   buildCategoryFilter();
-  buildCategoryPills();
   applyFilters();
 }
 
@@ -126,69 +125,26 @@ function switchTab(tab, resetFiltersFlag = true) {
    BUILD CATEGORY FILTER & PILLS
    ============================================================ */
 function buildCategoryFilter() {
-  const categories = [...new Set(state.data.map(d => d.kategori))].sort();
-  const sel = document.getElementById('filterKategori');
-  sel.innerHTML = '<option value="">Semua Kategori</option>';
-  categories.forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat;
-    sel.appendChild(opt);
-  });
-}
-
-function buildCategoryPills() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
   const categoryCounts = {};
   state.data.forEach(d => {
     if (!categoryCounts[d.kategori]) categoryCounts[d.kategori] = 0;
     categoryCounts[d.kategori]++;
   });
-
-  const cats = Object.keys(categoryCounts).sort();
-  const container = document.getElementById('categoryPills');
-  container.innerHTML = '';
-
-  // "All" pill
-  const allPill = createPill('Semua', state.data.length, state.activeCategory === '');
-  allPill.onclick = () => { state.activeCategory = ''; updatePills(); applyFilters(); };
-  container.appendChild(allPill);
-
-  cats.forEach(cat => {
-    const pill = createPill(cat, categoryCounts[cat], state.activeCategory === cat);
-    pill.onclick = () => {
-      state.activeCategory = state.activeCategory === cat ? '' : cat;
-      updatePills();
-      applyFilters();
-    };
-    container.appendChild(pill);
+  
+  const categories = Object.keys(categoryCounts).sort();
+  const sel = document.getElementById('filterKategori');
+  sel.innerHTML = `<option value="">Semua Kategori (${state.data.length})</option>`;
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = `${cat} (${categoryCounts[cat]})`;
+    sel.appendChild(opt);
   });
 }
 
-function createPill(label, count, isActive) {
-  const pill = document.createElement('button');
-  pill.className = 'pill' + (isActive ? ' active' : '');
-  pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-  pill.innerHTML = `${escapeHtml(label)} <span class="pill-count">${count}</span>`;
-  return pill;
-}
-
-function updatePills() {
-  const pills = document.querySelectorAll('#categoryPills .pill');
-  const cats = [...new Set(state.data.map(d => d.kategori))].sort();
-
-  pills.forEach((pill, i) => {
-    const isActive = i === 0
-      ? state.activeCategory === ''
-      : cats[i - 1] === state.activeCategory;
-    pill.classList.toggle('active', isActive);
-    pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-  });
-
-  // Also sync the select
-  document.getElementById('filterKategori').value = state.activeCategory;
+function setStatusFilter(status) {
+  document.getElementById('filterStatus').value = status;
+  applyFilters();
 }
 
 /* ============================================================
@@ -217,9 +173,7 @@ function applyFilters() {
 
   // Filter
   let filtered = withStatus.filter(d => {
-    // Category pill filter
-    if (state.activeCategory && d.kategori !== state.activeCategory) return false;
-    // Dropdown category filter (in sync with pill)
+    // Dropdown category filter
     const selKat = document.getElementById('filterKategori').value;
     if (selKat && d.kategori !== selKat) return false;
     // Status filter
@@ -232,6 +186,14 @@ function applyFilters() {
     }
     return true;
   });
+
+  // Update stat cards visual active state
+  const selStatus = document.getElementById('filterStatus').value;
+  document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active-total', 'active-aktif', 'active-segera', 'active-kadaluarsa'));
+  if (selStatus === '') document.getElementById('stat-total').classList.add('active-total');
+  else if (selStatus === 'aktif') document.getElementById('stat-aktif').classList.add('active-aktif');
+  else if (selStatus === 'segera') document.getElementById('stat-segera').classList.add('active-segera');
+  else if (selStatus === 'kadaluarsa') document.getElementById('stat-kadaluarsa').classList.add('active-kadaluarsa');
 
   state.filteredData = filtered;
 
@@ -487,7 +449,6 @@ function resetFilters() {
   document.getElementById('searchClear').style.display = 'none';
   document.getElementById('filterKategori').value = '';
   document.getElementById('filterStatus').value   = '';
-  updatePills();
   applyFilters();
 }
 
