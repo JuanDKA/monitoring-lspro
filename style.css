@@ -727,14 +727,16 @@ body {
   background: rgba(0,0,0,0.75);
   backdrop-filter: blur(8px);
   z-index: 200;
-  display: flex !important;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn 0.2s ease;
 }
 
-.modal-overlay[style*="display:none"] { display: none !important; }
+.modal-overlay.is-open {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
 
 .modal {
   background: var(--bg-secondary);

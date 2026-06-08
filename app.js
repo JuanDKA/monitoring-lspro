@@ -443,12 +443,12 @@ function openModal(idx) {
   `;
 
   const overlay = document.getElementById('modalOverlay');
-  overlay.style.display = 'flex';
+  overlay.classList.add('is-open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-  document.getElementById('modalOverlay').style.display = 'none';
+  document.getElementById('modalOverlay').classList.remove('is-open');
   document.body.style.overflow = '';
 }
 
