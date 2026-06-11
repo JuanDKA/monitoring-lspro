@@ -414,8 +414,8 @@ body {
 /* ---- Data Grid ---- */
 .data-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
   transition: var(--transition);
 }
 
@@ -428,8 +428,8 @@ body {
 .data-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 22px;
+  border-radius: var(--radius-md);
+  padding: 16px;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
@@ -465,8 +465,8 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .card-no {
@@ -506,7 +506,7 @@ body {
 .badge-kadaluarsa::before { background: var(--red); }
 
 .card-nama {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 700;
   line-height: 1.4;
   color: var(--text-primary);
@@ -520,29 +520,29 @@ body {
 .card-category {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
+  gap: 4px;
+  padding: 2px 8px;
   background: rgba(59,130,246,0.1);
   border: 1px solid rgba(59,130,246,0.25);
-  border-radius: 6px;
-  font-size: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--blue-l);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .card-dates {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .date-item {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
 .date-label {
@@ -564,19 +564,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
 }
 
 .days-remaining {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.82rem;
+  gap: 5px;
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
-.days-number { font-size: 1.1rem; }
+.days-number { font-size: 1rem; }
 .days-aktif   { color: var(--green-l); }
 .days-segera  { color: var(--orange-l); }
 .days-kadaluarsa { color: var(--red-l); }
