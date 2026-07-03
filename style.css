@@ -118,6 +118,36 @@ body {
   letter-spacing: 0.05em;
 }
 
+.preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 112, 143, 0.1);
+  color: var(--blue);
+  border: 1px solid rgba(0, 112, 143, 0.2);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-left: auto;
+  transition: var(--transition);
+}
+.preview-btn:hover {
+  background: var(--blue);
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .preview-btn {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.25);
+  color: var(--blue-l);
+}
+[data-theme="dark"] .preview-btn:hover {
+  background: var(--blue);
+  color: #FFFFFF;
+}
+
 .header-nav {
   display: flex;
   gap: 4px;
@@ -125,7 +155,6 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 4px;
-  margin-left: auto;
 }
 
 .nav-btn {
@@ -1134,5 +1163,6 @@ body {
 
 [data-theme="dark"] .card-category { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--blue-l); }
 [data-theme="dark"] .date-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); }
+
 
 
