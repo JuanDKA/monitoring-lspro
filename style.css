@@ -5,35 +5,35 @@
 
 /* ---- CSS Variables / Design Tokens ---- */
 :root {
-  --bg-primary:    #0A0E1A;
-  --bg-secondary:  #0F1626;
-  --bg-card:       #141C30;
-  --bg-card-hover: #1A2340;
-  --bg-input:      #1A2340;
+  --bg-primary:    #E4EFF1;
+  --bg-secondary:  #FFFFFF;
+  --bg-card:       #FFFFFF;
+  --bg-card-hover: #F6FBFC;
+  --bg-input:      #FFFFFF;
 
-  --border-subtle: rgba(255,255,255,0.07);
-  --border-medium: rgba(255,255,255,0.13);
+  --border-subtle: rgba(0, 151, 178, 0.15);
+  --border-medium: rgba(0, 151, 178, 0.3);
 
-  --text-primary:   #F0F4FF;
-  --text-secondary: #8B9CC8;
-  --text-muted:     #5A6B90;
+  --text-primary:   #213A40;
+  --text-secondary: #3D5A63;
+  --text-muted:     #678791;
 
-  --blue:   #3B82F6;
-  --blue-l: #60A5FA;
-  --green:  #22C55E;
-  --green-l:#4ADE80;
-  --orange: #F59E0B;
-  --orange-l:#FCD34D;
-  --red:    #EF4444;
-  --red-l:  #FCA5A5;
+  --blue:   #0097B2;
+  --blue-l: #33AEC4;
+  --green:  #7EBE43;
+  --green-l:#99CC66;
+  --orange: #FBB03B;
+  --orange-l:#FCD074;
+  --red:    #EF6363;
+  --red-l:  #F48B8B;
 
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  --shadow-card: 0 4px 20px rgba(0,0,0,0.35);
-  --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
+  --shadow-card: 0 4px 15px rgba(0, 151, 178, 0.08);
+  --shadow-hover: 0 8px 25px rgba(0, 151, 178, 0.15);
 
   --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
 
@@ -78,7 +78,7 @@ body {
 .header-bg {
   position: absolute;
   inset: 0;
-  background: rgba(10, 14, 26, 0.88);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .header-content {
@@ -121,7 +121,7 @@ body {
 .header-nav {
   display: flex;
   gap: 4px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,151,178,0.04);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 4px;
@@ -145,7 +145,7 @@ body {
   white-space: nowrap;
 }
 
-.nav-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+.nav-btn:hover { color: var(--text-primary); background: rgba(0,151,178,0.06); }
 
 .nav-btn.active {
   background: linear-gradient(135deg, var(--blue), #1D4ED8);
@@ -321,7 +321,7 @@ body {
   border-radius: 4px;
 }
 
-.search-clear:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+.search-clear:hover { color: var(--text-primary); background: rgba(0,151,178,0.07); }
 
 .filter-row {
   display: flex;
@@ -348,14 +348,14 @@ body {
 }
 
 .filter-select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
-.filter-select option { background: #1A2340; }
+.filter-select option { background: #FFFFFF; }
 
 .btn-reset {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 10px 16px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(0,151,178,0.05);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
@@ -386,7 +386,7 @@ body {
 .view-toggle {
   display: flex;
   gap: 3px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,151,178,0.04);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 3px;
@@ -406,7 +406,7 @@ body {
   transition: var(--transition);
 }
 
-.view-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.07); }
+.view-btn:hover { color: var(--text-primary); background: rgba(0,151,178,0.07); }
 .view-btn.active { background: var(--bg-card-hover); color: var(--text-primary); }
 
 /* (Removed category pills CSS) */
@@ -473,7 +473,7 @@ body {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 600;
-  background: rgba(255,255,255,0.05);
+  background: rgba(0,151,178,0.05);
   padding: 3px 9px;
   border-radius: 6px;
   flex-shrink: 0;
@@ -539,7 +539,7 @@ body {
 }
 
 .date-item {
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,151,178,0.03);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 8px 10px;
@@ -583,7 +583,7 @@ body {
 
 .progress-bar {
   height: 4px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,151,178,0.06);
   border-radius: 4px;
   overflow: hidden;
   flex: 1;
@@ -748,7 +748,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,151,178,0.06);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
@@ -816,7 +816,7 @@ body {
 }
 
 .modal-info-item {
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,151,178,0.03);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 14px 16px;
@@ -838,7 +838,7 @@ body {
 }
 
 .modal-alamat {
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,151,178,0.03);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 16px;
@@ -860,14 +860,14 @@ body {
 .modal-timeline {
   position: relative;
   padding: 16px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,151,178,0.03);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
 }
 
 .timeline-bar {
   height: 8px;
-  background: rgba(255,255,255,0.07);
+  background: rgba(0,151,178,0.07);
   border-radius: 8px;
   overflow: hidden;
   margin: 12px 0;
