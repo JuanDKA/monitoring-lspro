@@ -31,6 +31,7 @@ let state = {
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   loadData();
   updateFooterDate();
 
@@ -67,6 +68,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+function initTheme() {
+  const toggleBtn = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const savedTheme = localStorage.getItem('theme');
+
+  // Default is light. Only set to dark if explicitly saved as dark.
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    moonIcon.style.display = 'block';
+    sunIcon.style.display = 'none';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+  });
+}
 
 /* ============================================================
    DATA LOADING
