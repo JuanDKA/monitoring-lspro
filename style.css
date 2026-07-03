@@ -429,24 +429,36 @@ body {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  margin-top: 16px;
-  margin-bottom: 4px;
-  padding-bottom: 8px;
-  border-bottom: 2px dashed var(--border-medium);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .category-header h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 800;
   color: var(--text-primary);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-header h3::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 24px;
+  background: var(--blue);
+  border-radius: 4px;
 }
 
 .header-count {
   font-size: 0.95rem;
   color: var(--blue);
   font-weight: 600;
-  margin-left: 8px;
+  margin-left: 4px;
 }
 
 /* ---- Data Card ---- */
@@ -478,7 +490,7 @@ body {
 .data-card.status-kadaluarsa::before { background: linear-gradient(90deg, var(--red), #DC2626); }
 
 .data-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   border-color: var(--border-medium);
   box-shadow: var(--shadow-hover);
   background: var(--bg-card-hover);
@@ -545,15 +557,15 @@ body {
 .card-category {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  background: rgba(0,112,143,0.1);
-  border: 1px solid rgba(0,112,143,0.25);
-  border-radius: 4px;
-  font-size: 0.72rem;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--bg-primary);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--blue);
-  margin-bottom: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
 }
 
 .card-dates {
@@ -564,10 +576,10 @@ body {
 }
 
 .date-item {
-  background: rgba(0,151,178,0.03);
-  border: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
+  border: none;
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  padding: 10px 12px;
 }
 
 .date-label {
@@ -658,7 +670,19 @@ body {
   margin-bottom: 4px;
 }
 
-.data-grid.list-view .card-category { margin-bottom: 0; }
+.data-grid.list-view .card-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--bg-primary);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
 .data-grid.list-view .card-dates { display: none; }
 .data-grid.list-view .card-footer {
   flex-direction: column;
@@ -1067,8 +1091,25 @@ body {
 [data-theme="dark"] .badge-aktif { background: rgba(34,197,94,0.15); color: var(--green-l); }
 [data-theme="dark"] .badge-segera { background: rgba(245,158,11,0.15); color: var(--orange-l); }
 [data-theme="dark"] .badge-kadaluarsa { background: rgba(239,68,68,0.15); color: var(--red-l); }
-[data-theme="dark"] .card-category { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--blue-l); }
-[data-theme="dark"] .date-item { background: rgba(255,255,255,0.03); }
+[data-theme="dark"] .card-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--bg-primary);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+[data-theme="dark"] .date-item {
+  background: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
 [data-theme="dark"] .progress-bar { background: rgba(255,255,255,0.06); }
 [data-theme="dark"] .modal-close { background: rgba(255,255,255,0.06); }
 [data-theme="dark"] .modal-close:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: var(--red-l); }
@@ -1080,3 +1121,6 @@ body {
 [data-theme="dark"] .days-aktif { color: var(--green-l); }
 [data-theme="dark"] .days-segera { color: var(--orange-l); }
 [data-theme="dark"] .days-kadaluarsa { color: var(--red-l); }
+
+[data-theme="dark"] .card-category { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--blue-l); }
+[data-theme="dark"] .date-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); }
