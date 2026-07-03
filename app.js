@@ -568,7 +568,7 @@ function animateNumber(elId, target) {
 function updateFooterDate() {
   const today = new Date();
   const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('footerDate').textContent = today.toLocaleDateString('id-ID', opts);
+  if(document.getElementById('footerDate')) document.getElementById('footerDate').textContent = today.toLocaleDateString('id-ID', opts);
 }
 
 function showError(msg) {
@@ -580,3 +580,4 @@ function showError(msg) {
     </div>
   `;
 }
+
