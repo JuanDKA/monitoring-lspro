@@ -133,7 +133,7 @@ function buildCategoryFilter() {
   
   const categories = Object.keys(categoryCounts).sort();
   const sel = document.getElementById('filterKategori');
-  sel.innerHTML = `<option value="">Semua Kategori (${state.data.length})</option>`;
+  sel.innerHTML = `<option value="">Kategori Peralatan (${state.data.length})</option>`;
   categories.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat;
