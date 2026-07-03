@@ -239,10 +239,36 @@ function renderCards(data) {
   emptyState.style.display = 'none';
 
   grid.innerHTML = '';
-  data.forEach((item, idx) => {
-    const card = createCard(item, idx);
-    grid.appendChild(card);
-  });
+  
+  const selKat = document.getElementById('filterKategori').value;
+  
+  if (!selKat) {
+    // Jika tampil semua kategori, urutkan berdasarkan kategori lalu nama
+    const sortedData = [...data].sort((a, b) => {
+      if (a.kategori < b.kategori) return -1;
+      if (a.kategori > b.kategori) return 1;
+      return a.nama.localeCompare(b.nama);
+    });
+
+    let currentCategory = null;
+    sortedData.forEach((item, idx) => {
+      if (item.kategori !== currentCategory) {
+        currentCategory = item.kategori;
+        const catCount = sortedData.filter(d => d.kategori === currentCategory).length;
+        
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `<h3>${escapeHtml(currentCategory)} <span class="header-count">(${catCount} Peralatan)</span></h3>`;
+        grid.appendChild(header);
+      }
+      grid.appendChild(createCard(item, idx));
+    });
+  } else {
+    // Jika kategori spesifik dipilih, tampilkan seperti biasa
+    data.forEach((item, idx) => {
+      grid.appendChild(createCard(item, idx));
+    });
+  }
 }
 
 function createCard(item, idx) {
