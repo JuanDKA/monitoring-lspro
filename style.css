@@ -5,7 +5,7 @@
 
 /* ---- CSS Variables / Design Tokens ---- */
 :root {
-  --bg-primary:    #DCEBEF;
+  --bg-primary:    #EBF3F5;
   --bg-secondary:  #FFFFFF;
   --bg-card:       #FFFFFF;
   --bg-card-hover: #F2FAFC;
@@ -230,10 +230,10 @@ body {
   flex-shrink: 0;
 }
 
-.stat-icon--blue   { background: rgba(0,137,168,0.15); color: var(--blue-l); }
-.stat-icon--green  { background: rgba(107,175,34,0.15);  color: var(--green-l); }
-.stat-icon--orange { background: rgba(243,156,18,0.15); color: var(--orange-l); }
-.stat-icon--red    { background: rgba(231,76,60,0.15);  color: var(--red-l); }
+.stat-icon--blue   { background: rgba(0,137,168,0.15); color: var(--blue); }
+.stat-icon--green  { background: rgba(107,175,34,0.15);  color: var(--green); }
+.stat-icon--orange { background: rgba(243,156,18,0.15); color: var(--orange); }
+.stat-icon--red    { background: rgba(231,76,60,0.15);  color: var(--red); }
 
 .stat-number {
   font-size: 2rem;
@@ -366,7 +366,7 @@ body {
   transition: var(--transition);
 }
 
-.btn-reset:hover { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.3); color: var(--red-l); }
+.btn-reset:hover { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.3); color: var(--red); }
 
 .results-meta {
   display: flex;
@@ -498,11 +498,11 @@ body {
   border-radius: 50%;
 }
 
-.badge-aktif   { background: rgba(107,175,34,0.15); color: var(--green-l); }
+.badge-aktif   { background: rgba(107,175,34,0.15); color: var(--green); }
 .badge-aktif::before { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
-.badge-segera  { background: rgba(243,156,18,0.15); color: var(--orange-l); }
+.badge-segera  { background: rgba(243,156,18,0.15); color: var(--orange); }
 .badge-segera::before { background: var(--orange); animation: pulse 1.5s infinite; }
-.badge-kadaluarsa { background: rgba(231,76,60,0.15); color: var(--red-l); }
+.badge-kadaluarsa { background: rgba(231,76,60,0.15); color: var(--red); }
 .badge-kadaluarsa::before { background: var(--red); }
 
 .card-nama {
@@ -527,7 +527,7 @@ body {
   border-radius: 4px;
   font-size: 0.72rem;
   font-weight: 600;
-  color: var(--blue-l);
+  color: var(--blue);
   margin-bottom: 12px;
 }
 
@@ -577,9 +577,9 @@ body {
 }
 
 .days-number { font-size: 1rem; }
-.days-aktif   { color: var(--green-l); }
-.days-segera  { color: var(--orange-l); }
-.days-kadaluarsa { color: var(--red-l); }
+.days-aktif   { color: var(--green); }
+.days-segera  { color: var(--orange); }
+.days-kadaluarsa { color: var(--red); }
 
 .progress-bar {
   height: 4px;
@@ -615,7 +615,7 @@ body {
   border-radius: 6px;
 }
 
-.card-detail-btn:hover { color: var(--blue-l); background: rgba(0,137,168,0.1); }
+.card-detail-btn:hover { color: var(--blue); background: rgba(0,137,168,0.1); }
 
 /* LIST VIEW Card */
 .data-grid.list-view .data-card {
@@ -756,7 +756,7 @@ body {
   transition: var(--transition);
 }
 
-.modal-close:hover { background: rgba(231,76,60,0.15); border-color: rgba(231,76,60,0.3); color: var(--red-l); }
+.modal-close:hover { background: rgba(231,76,60,0.15); border-color: rgba(231,76,60,0.3); color: var(--red); }
 
 .modal-header { margin-bottom: 28px; }
 
@@ -795,7 +795,7 @@ body {
   border-radius: 8px;
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--blue-l);
+  color: var(--blue);
 }
 
 .modal-body { display: flex; flex-direction: column; gap: 18px; }
