@@ -109,7 +109,7 @@ function initTheme() {
    ============================================================ */
 async function loadData() {
   try {
-    const res = await fetch('data.json');
+    const res = await fetch('data.json?v=' + new Date().getTime());
     if (!res.ok) throw new Error('Gagal memuat data.json');
     const json = await res.json();
     RAW_DATA.lspro    = json.lspro    || [];

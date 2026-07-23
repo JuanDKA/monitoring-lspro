@@ -584,6 +584,105 @@
       "jangka_waktu": "2029-12-24",
       "keterangan": "Terakreditasi SNI ISO 5151:2015",
       "kategori": "Pengondisi Udara"
+    },
+    {
+      "no": "1",
+      "nama": "PT Integrita Global Sertifikat",
+      "alamat": "Kompleks Rukan Taman Tekno Boulevard Blok F No 3 Jl. Taman Tekno Widya, BSD, Tangerang Telp (021) 75672957 Fax (021) 75672920",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi ISO 22044:2021 Commercial Beverage Cooler atau perubahannya tanpa melakukan pengujian outdoor test room dan half reload recovery",
+      "kategori": "RDC"
+    },
+    {
+      "no": "2",
+      "nama": "PT Qualis Indonesia",
+      "alamat": "Jl. Pajajaran No 17 Desa Gandasari, Jatiuwung, Tangerang, Banten Telp (021) 55652583 Fax (021) 55652489",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi ISO 22044:2021 Commercial Beverage Cooler atau perubahannya tanpa melakukan pengujian outdoor test room dan half reload recovery",
+      "kategori": "RDC"
+    },
+    {
+      "no": "3",
+      "nama": "PT Sucofindo",
+      "alamat": "Graha Sucofindo Jl. Raya Psar Minggu Kav 34 Jakarta Telp (021) 7983666",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi ISO 22044:2021 Commercial Beverage Cooler atau perubahannya tanpa melakukan pengujian outdoor test room dan half reload recovery",
+      "kategori": "RDC"
+    },
+    {
+      "no": "4",
+      "nama": "PT TUV Rheinland",
+      "alamat": "Infinia Park Blok A56 B92-B93 Jl. Dr.Saharjo No 45 Jakarta Telp (021) 39704579 Fax (021) 57944575",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi ISO 22044:2021 Commercial Beverage Cooler atau perubahannya tanpa melakukan pengujian outdoor test room dan half reload recovery",
+      "kategori": "RDC"
+    },
+    {
+      "no": "5",
+      "nama": "PT Multicert Global Indonesia",
+      "alamat": "Jl. K.H Mas Mansyur No.96-98, 2nd Floor Building Kebon Melati, Tanah Abang Jakarta Pusat 10230 Telp (021) 3907774",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi ISO 22044:2021 Commercial Beverage Cooler atau perubahannya tanpa melakukan pengujian outdoor test room dan half reload recovery",
+      "kategori": "RDC"
+    },
+    {
+      "no": "1",
+      "nama": "Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT)",
+      "alamat": "Jl. Sangkuriang No.14 Bandung, Jawa Barat 40135 Telp (022) 2504088 Fax (022) 2502027",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
+    },
+    {
+      "no": "2",
+      "nama": "Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya",
+      "alamat": "Jl. Jagir Wonokromo No.360 Surabaya Telp : (031) 99843670 Fax : (031) 8410480",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
+    },
+    {
+      "no": "3",
+      "nama": "PT Qualis Indonesia",
+      "alamat": "Jl. Pajajaran No 17 Desa Gandasari, Jatiuwung, Tangerang, Banten Telp (021) 55652583 Fax (021) 55652489",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
+    },
+    {
+      "no": "5",
+      "nama": "PT Sucofindo",
+      "alamat": "Graha Sucofindo Jl. Raya Psar Minggu Kav 34 Jakarta Telp (021) 7983666",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
+    },
+    {
+      "no": "6",
+      "nama": "PT TUV Rheinland",
+      "alamat": "Infinia Park Blok A56 B92-B93 Jl. Dr.Saharjo No 45 Jakarta Telp (021) 39704579 Fax (021) 57944575",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
+    },
+    {
+      "no": "7",
+      "nama": "PT UL International Indonesia",
+      "alamat": "Altira Business Park, Blok E/03 Jl. Yos Sudarso Kav.85 Sunter, Jakarta Utara Telp (021) 26690908 Fax (021) 26690910",
+      "mulai_berlaku": "2024-06-13",
+      "jangka_waktu": "2026-06-13",
+      "keterangan": "Belum terakreditasi IEC 62087-3:2023 Audio, video and related equipment - Determination of power consumption - Part 3: Television sets atau perubahannya",
+      "kategori": "Televisi"
     }
   ],
   "lab_uji": [
@@ -1135,6 +1234,78 @@
       "jangka_waktu": "2029-12-24",
       "keterangan": "Terakreditasi SNI ISO 5151:2015",
       "kategori": "Pengondisi Udara"
+    },
+    {
+      "no": "1",
+      "nama": "Balai Besar Survei dan Pengujian Ketenagalistrikan EBTKE (BBSP-KEBTKE) - Kementerian ESDM",
+      "alamat": "Jl. Ciledug Raya Kav. 109 Cipulir, Jakarta Selatan Telp (021) 72798311 Fax (021) 72798202",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2027-01-13",
+      "keterangan": "Terakreditasi SNI IEC 62612:2016 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "2",
+      "nama": "Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT) Kementerian Perindustrian",
+      "alamat": "Jl. Sangkuriang No 14 Bandung Telp (022) 2504088 Fax (022) 2502027",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2027-01-13",
+      "keterangan": "Terakreditasi SNI IEC 62612:2016 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "3",
+      "nama": "Laboratorium Konversi Energi (LKE) - BRIN",
+      "alamat": "Kawasan PUSPITEK Gd.620-625 Serpong Tangerang Selatan",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2027-01-13",
+      "keterangan": "Terakreditasi SNI IEC 62612:2016 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "4",
+      "nama": "PT Qualis Indonesia",
+      "alamat": "Jl. Pajajaran No.17 Desa Gandasari, Tangerang Telp (021) 55652583 Fax (021) 55652489",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2027-01-13",
+      "keterangan": "Terakreditasi SNI IEC 62612:2016 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "5",
+      "nama": "PT Vertex Global Indonesia",
+      "alamat": "Pergudangan Bandara Benda Permai Blok G 10 Dadap Tangerang Telp (021) 29215868",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2027-01-13",
+      "keterangan": "Terakreditasi SNI IEC 62612:2016 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "1",
+      "nama": "Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - Kementerian Perindustrian",
+      "alamat": "Jl. Jagir Wonokromo No. 360 Surabaya Telp : (031) 99843670 Fax (031) 8410480",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2025-01-13",
+      "keterangan": "Pemuktahiran akreditasi SNI IEC 60879:2013 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "2",
+      "nama": "Balai Pengujian Mutu Barang - Kementerian Perdagangan",
+      "alamat": "Jalan Raya Bogor km 26 Ciracas Jakarta Timur Telp (021) 8710321 Fax (021) 8710478",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2025-01-13",
+      "keterangan": "Pemuktahiran akreditasi SNI IEC 60879:2013 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
+    },
+    {
+      "no": "3",
+      "nama": "PT Sucofindo Central Laboratory",
+      "alamat": "Jl. Arteri Tol Cibitung No 1 Cibitung, Bekasi Telp (021) 88321176 Fax (021) 88321166",
+      "mulai_berlaku": "2023-01-13",
+      "jangka_waktu": "2025-01-13",
+      "keterangan": "Pemuktahiran akreditasi SNI IEC 60879:2013 atau perubahannya",
+      "kategori": "LED Tabung Swabalast"
     }
   ],
   "generated_at": "2026-06-08 09:30:39"
