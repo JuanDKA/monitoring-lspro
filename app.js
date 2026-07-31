@@ -523,6 +523,40 @@ function setView(mode) {
 }
 
 /* ============================================================
+   EXPORT EXCEL
+   ============================================================ */
+function exportToExcel() {
+  if (state.filteredData.length === 0) {
+    alert("Tidak ada data untuk di-export.");
+    return;
+  }
+
+  const dataToExport = state.filteredData.map((d, index) => {
+    return {
+      "No": index + 1,
+      "Nama Lembaga": d.nama,
+      "Kategori / Peralatan": d.kategori,
+      "Mulai Berlaku": d.start ? formatDate(d.start) : '-',
+      "Berakhir": d.end ? formatDate(d.end) : '-',
+      "Sisa Masa Berlaku": d.daysLeft !== null ? (d.daysLeft < 0 ? `${Math.abs(d.daysLeft)} hari lalu` : `${d.daysLeft} hari lagi`) : '-',
+      "Status": d.status === 'aktif' ? 'Masih Berlaku' : (d.status === 'segera' ? 'Segera Berakhir' : 'Sudah Berakhir'),
+      "Alamat": d.alamat || '-',
+      "Keterangan": d.keterangan || '-'
+    };
+  });
+
+  const ws = XLSX.utils.json_to_sheet(dataToExport);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Data");
+  
+  const tabName = state.activeTab === 'lspro' ? 'LSPro' : 'Lab_Uji';
+  const filterStatus = document.getElementById('filterStatus').options[document.getElementById('filterStatus').selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_');
+  const dateStr = new Date().toISOString().slice(0,10);
+  
+  XLSX.writeFile(wb, `Data_${tabName}_${filterStatus}_${dateStr}.xlsx`);
+}
+
+/* ============================================================
    UTILITIES
    ============================================================ */
 function formatDate(date) {

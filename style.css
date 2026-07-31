@@ -394,6 +394,24 @@ body {
 
 .btn-reset:hover { background: rgba(198,40,40,0.12); border-color: rgba(198,40,40,0.3); color: var(--red); }
 
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--green);
+  border: 1px solid var(--green);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-export:hover { background: var(--green-l); border-color: var(--green-l); }
+
 .results-meta {
   display: flex;
   align-items: center;
