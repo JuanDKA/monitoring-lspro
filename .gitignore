@@ -13,3 +13,6 @@ desktop.ini
 
 # Python script (tidak perlu dipublikasikan)
 extract_data.py
+
+# Konfigurasi rahasia (jangan di-commit!)
+.env

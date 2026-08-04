@@ -200,7 +200,7 @@ function applyFilters() {
     if (end) {
       daysLeft = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
       if (daysLeft < 0)      status = 'kadaluarsa';
-      else if (daysLeft <= 30) status = 'segera';
+      else if (daysLeft <= 60) status = 'segera';
       else                    status = 'aktif';
     }
 
@@ -613,5 +613,159 @@ function showError(msg) {
       <p>${msg}</p>
     </div>
   `;
+}
+
+
+/* ============================================================
+   TELEGRAM NOTIFICATION
+   ============================================================ */
+
+/**
+ * Ambil semua data (LSPro + Lab Uji) yang statusnya 'segera' atau 'kadaluarsa'
+ */
+function getAlertItems() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const processData = (dataArr, tabLabel) => dataArr.map(d => {
+    const end   = d.jangka_waktu ? new Date(d.jangka_waktu) : null;
+    const start = d.mulai_berlaku ? new Date(d.mulai_berlaku) : null;
+    let daysLeft = null;
+    let status = 'aktif';
+    if (end) {
+      daysLeft = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+      if (daysLeft < 0)        status = 'kadaluarsa';
+      else if (daysLeft <= 60) status = 'segera';
+    }
+    return { ...d, end, start, daysLeft, status, tabLabel };
+  }).filter(d => d.status === 'segera' || d.status === 'kadaluarsa');
+
+  const lsproItems  = processData(RAW_DATA.lspro,   'LSPro');
+  const labujiItems = processData(RAW_DATA.lab_uji, 'Lab Uji');
+  return [...lsproItems, ...labujiItems].sort((a, b) => (a.daysLeft ?? 999) - (b.daysLeft ?? 999));
+}
+
+/* ---- Telegram Modal ---- */
+function openTelegramModal() {
+  const saved = getTelegramConfig();
+  document.getElementById('tg-token').value  = saved.token  || '';
+  document.getElementById('tg-chatid').value = saved.chatId || '';
+  document.getElementById('tgModal').classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('tg-status').textContent = '';
+  document.getElementById('tg-status').className = 'tg-status-msg';
+}
+
+function closeTelegramModal() {
+  document.getElementById('tgModal').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+function getTelegramConfig() {
+  return {
+    token:  localStorage.getItem('tg_token')  || '',
+    chatId: localStorage.getItem('tg_chatid') || ''
+  };
+}
+
+function saveTelegramConfig() {
+  const token  = document.getElementById('tg-token').value.trim();
+  const chatId = document.getElementById('tg-chatid').value.trim();
+  if (!token || !chatId) {
+    showTgStatus('⚠️ Token dan Chat ID wajib diisi.', 'error');
+    return;
+  }
+  localStorage.setItem('tg_token',  token);
+  localStorage.setItem('tg_chatid', chatId);
+  showTgStatus('✅ Konfigurasi tersimpan!', 'success');
+}
+
+function showTgStatus(msg, type) {
+  const el = document.getElementById('tg-status');
+  el.textContent = msg;
+  el.className = 'tg-status-msg tg-status-' + type;
+}
+
+/* ---- Kirim Notifikasi ---- */
+async function sendTelegramNotification() {
+  const { token, chatId } = getTelegramConfig();
+  if (!token || !chatId) {
+    openTelegramModal();
+    showTgStatus('⚠️ Harap isi Token dan Chat ID terlebih dahulu.', 'error');
+    return;
+  }
+  if (!RAW_DATA.loaded) {
+    alert('Data belum selesai dimuat. Coba lagi sesaat lagi.');
+    return;
+  }
+
+  const items  = getAlertItems();
+  const today  = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const segera     = items.filter(d => d.status === 'segera');
+  const kadaluarsa = items.filter(d => d.status === 'kadaluarsa');
+
+  let msg = `🔔 *Monitoring LSPro & Lab Uji ESDM*\n📅 ${today}\n\n`;
+
+  if (items.length === 0) {
+    msg += `✅ Tidak ada lembaga yang akan segera berakhir atau sudah kadaluarsa.`;
+  } else {
+    msg += `📊 *Ringkasan:*\n`;
+    msg += `⚠️ Segera Berakhir (≤60 hari): *${segera.length} lembaga*\n`;
+    msg += `🔴 Sudah Berakhir: *${kadaluarsa.length} lembaga*\n`;
+
+    if (segera.length > 0) {
+      msg += `\n━━━━━━━━━━━━━━━━━━━━\n⚠️ *SEGERA BERAKHIR:*\n━━━━━━━━━━━━━━━━━━━━\n`;
+      segera.slice(0, 15).forEach(d => {
+        msg += `\n📌 [${d.tabLabel}] *${d.nama}*\n   📦 ${d.kategori}\n   ⏰ ${d.end ? formatDate(d.end) : '—'} (${d.daysLeft} hari lagi)\n`;
+      });
+      if (segera.length > 15) msg += `\n   ...dan ${segera.length - 15} lainnya.\n`;
+    }
+
+    if (kadaluarsa.length > 0) {
+      msg += `\n━━━━━━━━━━━━━━━━━━━━\n🔴 *SUDAH BERAKHIR:*\n━━━━━━━━━━━━━━━━━━━━\n`;
+      kadaluarsa.slice(0, 10).forEach(d => {
+        msg += `\n❌ [${d.tabLabel}] *${d.nama}*\n   📦 ${d.kategori}\n   📅 ${d.end ? formatDate(d.end) : '—'} (${Math.abs(d.daysLeft)} hari lalu)\n`;
+      });
+      if (kadaluarsa.length > 10) msg += `\n   ...dan ${kadaluarsa.length - 10} lainnya.\n`;
+    }
+  }
+
+  const btn = document.getElementById('btnKirimTelegram');
+  const origHTML = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Mengirim...'; }
+
+  try {
+    const res  = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      showToast('✅ Notifikasi berhasil dikirim ke Telegram!');
+    } else {
+      showToast('❌ Gagal: ' + (data.description || 'Unknown error'), true);
+      console.error('Telegram error:', data);
+    }
+  } catch (err) {
+    showToast('❌ Error koneksi: ' + err.message, true);
+    console.error(err);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
+  }
+}
+
+/* ---- Toast ---- */
+function showToast(msg, isError = false) {
+  let toast = document.getElementById('tgToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'tgToast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.className = 'tg-toast ' + (isError ? 'tg-toast-error' : 'tg-toast-success');
+  toast.classList.add('tg-toast-show');
+  setTimeout(() => toast.classList.remove('tg-toast-show'), 4500);
 }
 

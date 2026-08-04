@@ -89,7 +89,7 @@
           </div>
           <div class="stat-content">
             <div class="stat-number" id="statSegera">—</div>
-            <div class="stat-label">Segera Berakhir (≤30 hari)</div>
+            <div class="stat-label">Segera Berakhir (≤60 hari)</div>
           </div>
         </div>
         <div class="stat-card" id="stat-kadaluarsa" onclick="setStatusFilter('kadaluarsa')" role="button" tabindex="0">
@@ -129,7 +129,7 @@
           <select id="filterStatus" class="filter-select" aria-label="Filter status masa berlaku" onchange="applyFilters()">
             <option value="">Semua Status</option>
             <option value="aktif">Masih Berlaku</option>
-            <option value="segera">Segera Berakhir (≤30 hari)</option>
+            <option value="segera">Segera Berakhir (≤60 hari)</option>
             <option value="kadaluarsa">Sudah Berakhir</option>
           </select>
           <button class="btn-reset" id="resetFiltersBtn" onclick="resetFilters()" title="Reset semua filter">
@@ -139,6 +139,13 @@
           <button class="btn-export" id="exportBtn" onclick="exportToExcel()" title="Export data ke Excel">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Export
+          </button>
+          <button class="btn-notif" id="btnKirimTelegram" onclick="sendTelegramNotification()" title="Kirim notifikasi ke Telegram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Notifikasi
+          </button>
+          <button class="btn-tg-config" onclick="openTelegramModal()" title="Konfigurasi Telegram Bot" aria-label="Pengaturan Telegram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
           </button>
         </div>
         <div class="results-meta">
@@ -202,8 +209,55 @@
     </div>
   </footer>
 
+  <!-- ===== MODAL TELEGRAM ===== -->
+  <div class="modal-overlay" id="tgModal" role="dialog" aria-modal="true" aria-labelledby="tgModalTitle">
+    <div class="modal tg-modal-box" id="tgModalBox">
+      <button class="modal-close" onclick="closeTelegramModal()" aria-label="Tutup konfigurasi">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-header">
+        <div class="modal-badge badge-aktif" style="background:linear-gradient(135deg,#229ED9,#1a7bb5);color:#fff">Telegram Bot</div>
+        <h2 class="modal-title" id="tgModalTitle">🔔 Konfigurasi Notifikasi</h2>
+        <div class="modal-category">Kirim notifikasi status lembaga ke Telegram</div>
+      </div>
+      <div class="modal-body tg-modal-body">
+
+        <div class="tg-info-box">
+          <strong>📖 Cara mendapatkan Token & Chat ID:</strong><br>
+          1. Buka Telegram → cari <code>@BotFather</code><br>
+          2. Ketik <code>/newbot</code> → ikuti instruksi → salin <strong>Token</strong><br>
+          3. Tambahkan bot ke grup/channel kamu sebagai Admin<br>
+          4. Cari Chat ID: buka <code>@userinfobot</code> atau kirim pesan ke grup lalu cek via API<br>
+          &nbsp;&nbsp;&nbsp;<em>Tips: Chat ID grup biasanya diawali dengan <code>-</code> (minus)</em>
+        </div>
+
+        <div class="tg-form">
+          <label class="tg-label" for="tg-token">🤖 Bot Token</label>
+          <input type="password" id="tg-token" class="tg-input" placeholder="1234567890:AAF..." autocomplete="off" />
+
+          <label class="tg-label" for="tg-chatid">💬 Chat ID Tujuan</label>
+          <input type="text" id="tg-chatid" class="tg-input" placeholder="-1001234567890 atau 123456789" autocomplete="off" />
+
+          <div id="tg-status" class="tg-status-msg"></div>
+
+          <div class="tg-btn-row">
+            <button class="btn-tg-save" onclick="saveTelegramConfig()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan Konfigurasi
+            </button>
+            <button class="btn-tg-send" onclick="closeTelegramModal(); sendTelegramNotification();">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Kirim Notifikasi Sekarang
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>
 
