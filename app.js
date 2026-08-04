@@ -648,8 +648,8 @@ function getAlertItems() {
 /* ---- Telegram Modal ---- */
 function openTelegramModal() {
   const saved = getTelegramConfig();
-  document.getElementById('tg-token').value  = saved.token  || '';
-  document.getElementById('tg-chatid').value = saved.chatId || '';
+  document.getElementById('tg-token').value  = saved.token   || '';
+  document.getElementById('tg-chatid').value = saved.chatIds || '';
   document.getElementById('tgModal').classList.add('is-open');
   document.body.style.overflow = 'hidden';
   document.getElementById('tg-status').textContent = '';
@@ -663,21 +663,24 @@ function closeTelegramModal() {
 
 function getTelegramConfig() {
   return {
-    token:  localStorage.getItem('tg_token')  || '',
-    chatId: localStorage.getItem('tg_chatid') || ''
+    token:   localStorage.getItem('tg_token')   || '',
+    chatIds: localStorage.getItem('tg_chatids') || localStorage.getItem('tg_chatid') || ''
   };
 }
 
 function saveTelegramConfig() {
-  const token  = document.getElementById('tg-token').value.trim();
-  const chatId = document.getElementById('tg-chatid').value.trim();
-  if (!token || !chatId) {
+  const token   = document.getElementById('tg-token').value.trim();
+  const chatIds = document.getElementById('tg-chatid').value.trim();
+  if (!token || !chatIds) {
     showTgStatus('⚠️ Token dan Chat ID wajib diisi.', 'error');
     return;
   }
-  localStorage.setItem('tg_token',  token);
-  localStorage.setItem('tg_chatid', chatId);
-  showTgStatus('✅ Konfigurasi tersimpan!', 'success');
+  localStorage.setItem('tg_token',   token);
+  localStorage.setItem('tg_chatids', chatIds);
+  // Hapus key lama jika ada
+  localStorage.removeItem('tg_chatid');
+  const count = chatIds.split(',').filter(s => s.trim()).length;
+  showTgStatus(`✅ Konfigurasi tersimpan! (${count} penerima)`, 'success');
 }
 
 function showTgStatus(msg, type) {
@@ -686,10 +689,12 @@ function showTgStatus(msg, type) {
   el.className = 'tg-status-msg tg-status-' + type;
 }
 
-/* ---- Kirim Notifikasi ---- */
+/* ---- Kirim Notifikasi ke semua Chat ID ---- */
 async function sendTelegramNotification() {
-  const { token, chatId } = getTelegramConfig();
-  if (!token || !chatId) {
+  const { token, chatIds } = getTelegramConfig();
+  const idList = chatIds.split(',').map(s => s.trim()).filter(Boolean);
+
+  if (!token || idList.length === 0) {
     openTelegramModal();
     showTgStatus('⚠️ Harap isi Token dan Chat ID terlebih dahulu.', 'error');
     return;
@@ -699,8 +704,8 @@ async function sendTelegramNotification() {
     return;
   }
 
-  const items  = getAlertItems();
-  const today  = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const items      = getAlertItems();
+  const today      = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const segera     = items.filter(d => d.status === 'segera');
   const kadaluarsa = items.filter(d => d.status === 'kadaluarsa');
 
@@ -732,20 +737,28 @@ async function sendTelegramNotification() {
 
   const btn = document.getElementById('btnKirimTelegram');
   const origHTML = btn ? btn.innerHTML : '';
-  if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Mengirim...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = `⏳ Mengirim ke ${idList.length} orang...`; }
 
+  // Kirim ke semua Chat ID secara paralel
   try {
-    const res  = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
-    });
-    const data = await res.json();
-    if (data.ok) {
-      showToast('✅ Notifikasi berhasil dikirim ke Telegram!');
+    const results = await Promise.all(idList.map(chatId =>
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+      }).then(r => r.json()).then(d => ({ chatId, ok: d.ok, desc: d.description }))
+        .catch(e => ({ chatId, ok: false, desc: e.message }))
+    ));
+
+    const success = results.filter(r => r.ok).length;
+    const failed  = results.filter(r => !r.ok);
+
+    if (failed.length === 0) {
+      showToast(`✅ Notifikasi dikirim ke ${success} penerima!`);
     } else {
-      showToast('❌ Gagal: ' + (data.description || 'Unknown error'), true);
-      console.error('Telegram error:', data);
+      const failIds = failed.map(r => r.chatId).join(', ');
+      showToast(`⚠️ Terkirim ${success}/${idList.length}. Gagal: ${failIds}`, true);
+      console.error('Telegram errors:', failed);
     }
   } catch (err) {
     showToast('❌ Error koneksi: ' + err.message, true);
