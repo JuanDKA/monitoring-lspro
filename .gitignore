@@ -16,3 +16,11 @@ extract_data.py
 
 # Konfigurasi rahasia (jangan di-commit!)
 .env
+
+# Admin Panel (hanya untuk penggunaan lokal)
+server.py
+start_admin.bat
+admin.html
+admin.js
+admin.css
+data_backup.json
