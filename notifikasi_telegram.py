@@ -236,6 +236,10 @@ def main():
     )
     args = parser.parse_args()
 
+    # Fix encoding untuk Windows terminal
+    import io, sys
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
     print("=" * 55)
     if args.rekap:
         print("  Mode: REKAP LENGKAP")
@@ -245,37 +249,35 @@ def main():
 
     # Validasi konfigurasi
     if not BOT_TOKEN:
-        print("❌ ERROR: TELEGRAM_BOT_TOKEN belum diisi di file .env")
+        print("ERROR: TELEGRAM_BOT_TOKEN belum diisi di file .env")
         sys.exit(1)
     if not CHAT_ID:
-        print("❌ ERROR: TELEGRAM_CHAT_ID belum diisi di file .env")
+        print("ERROR: TELEGRAM_CHAT_ID belum diisi di file .env")
         sys.exit(1)
 
-    print(f"📂 Membaca: {DATA_FILE}")
-    data     = load_data(DATA_FILE)
+    print(f"[*] Membaca: {DATA_FILE}")
+    data      = load_data(DATA_FILE)
     all_items = enrich(data)
 
     if args.rekap:
-        # --- Mode rekap: kirim semua ---
         segera_count     = sum(1 for d in all_items if d['status'] == 'segera')
         kadaluarsa_count = sum(1 for d in all_items if d['status'] == 'kadaluarsa')
-        print(f"⚠️  Segera berakhir : {segera_count} lembaga")
-        print(f"🔴 Sudah kadaluarsa: {kadaluarsa_count} lembaga")
+        print(f"[!] Segera berakhir : {segera_count} lembaga")
+        print(f"[X] Sudah kadaluarsa: {kadaluarsa_count} lembaga")
         message = build_message_rekap(all_items)
-        print(f"\n📤 Mengirim rekap ke Telegram...")
+        print(f"\n[>] Mengirim rekap ke Telegram...")
         send_telegram(BOT_TOKEN, CHAT_ID, message)
 
     else:
-        # --- Mode otomatis: hanya yang baru masuk hari ini ---
         new_entries = get_new_entries(all_items)
-        print(f"🆕 Baru masuk Segera Berakhir hari ini: {len(new_entries)} lembaga")
+        print(f"[NEW] Baru masuk Segera Berakhir hari ini: {len(new_entries)} lembaga")
         if not new_entries:
-            print("✅ Tidak ada yang baru masuk — notifikasi tidak dikirim.")
+            print("[OK] Tidak ada yang baru masuk -- notifikasi tidak dikirim.")
         else:
             for d in new_entries:
-                print(f"   → [{d['tab_label']}] {d['nama']} ({d['kategori']})")
+                print(f"   -> [{d['tab_label']}] {d['nama']} ({d['kategori']})")
             message = build_message_otomatis(new_entries)
-            print(f"\n📤 Mengirim notifikasi ke Telegram...")
+            print(f"\n[>] Mengirim notifikasi ke Telegram...")
             send_telegram(BOT_TOKEN, CHAT_ID, message)
 
     print("=" * 55)
