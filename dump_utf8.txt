@@ -1,0 +1,148 @@
+LSPro records:
+Penanak Nasi - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2028-07-18
+Penanak Nasi - PT Sucofindo (Persero) - 2028-07-18
+Penanak Nasi - PT Qualis Indonesia - 2028-07-18
+Penanak Nasi - PT TUV Rheinland Indonesia - 2028-07-18
+Penanak Nasi - PT Vertex Global Indonesia - 2028-07-18
+Penanak Nasi - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSP KEBTKE), Kementerian ESDM - 2029-09-18
+Penanak Nasi - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+LED Swabalast - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2027-01-17
+LED Swabalast - PT Qualis Indonesia - 2027-01-17
+LED Swabalast - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2029-09-18
+LED Swabalast - PT Sucofindo (Persero) - 2029-09-18
+LED Swabalast - PT TUV Rheinland Indonesia - 2029-09-18
+LED Swabalast - PT Vertex Global Indonesia - 2029-09-18
+LED Swabalast - PT Integrita Global Sertifikat - 2029-09-18
+LED Swabalast - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSP KEBTKE), Kementerian ESDM - 2029-09-18
+LED Swabalast - PT Multicert Global Indonesia - 2029-09-18
+LED Swabalast - PT Anindya Certification and Testing - 2029-12-24
+LED Swabalast - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+LED Tabung Swabalast - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2027-01-17
+LED Tabung Swabalast - PT Qualis Indonesia - 2027-01-17
+LED Tabung Swabalast - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2029-09-18
+LED Tabung Swabalast - PT Sucofindo (Persero) - 2029-09-18
+LED Tabung Swabalast - PT TUV Rheinland Indonesia - 2029-09-18
+LED Tabung Swabalast - PT Integrita Global Sertifikat - 2029-09-18
+LED Tabung Swabalast - PT Vertex Global Indonesia - 2029-09-18
+LED Tabung Swabalast - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSP KEBTKE), Kementerian ESDM - 2029-09-18
+LED Tabung Swabalast - PT Multicert Global Indonesia - 2029-09-18
+LED Tabung Swabalast - PT Anindya Certification and Testing - 2029-12-24
+LED Tabung Swabalast - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+LED Luminer - PT Qualis Indonesia - 2029-09-18
+LED Luminer - PT TUV Rheinland Indonesia - 2029-09-18
+LED Luminer - PT Vertex Global Indonesia - 2029-09-18
+LED Luminer - PT Integrita Global Sertifikat - 2029-09-18
+LED Luminer - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSP KEBTKE), Kementerian ESDM - 2029-09-18
+LED Luminer - PT Anindya Certification and Testing - 2029-12-24
+LED Luminer - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+Dispenser Air Minum - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2029-12-24
+Dispenser Air Minum - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSP KEBTKE), Kementerian ESDM - 2027-12-24
+Dispenser Air Minum - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Jakarta - 2027-12-24
+Dispenser Air Minum - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2027-12-24
+Dispenser Air Minum - Balai Sertifikasi Direktorat Standardisasi dan Pengendalian Mutu Kementerian Perdagangan (PPMB) - 2027-12-24
+Dispenser Air Minum - PT Multicert Global Indonesia - 2027-12-24
+Dispenser Air Minum - PT Qualis Indonesia - 2027-12-24
+Dispenser Air Minum - PT Sucofindo (Persero) - 2027-12-24
+Dispenser Air Minum - PT TUV Rheinland Indonesia - 2027-12-24
+Dispenser Air Minum - PT Vertex Global Indonesia - 2027-12-24
+Kipas Angin - PT TUV Rheinland Indonesia - 2026-04-22
+Kipas Angin - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2028-07-18
+Kipas Angin - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Jakarta - 2028-07-18
+Kipas Angin - Balai Sertifikasi Direktorat Standardisasi dan Pengendalian Mutu Kementerian Perdagangan (PPMB) - 2028-07-18
+Kipas Angin - PT Sucofindo (Persero) - 2028-07-18
+Kipas Angin - PT Qualis Indonesia - 2028-07-18
+Kipas Angin - PT Vertex Global Indonesia - 2028-07-18
+Kipas Angin - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+Lemari Pendingin - PT Sucofindo (Persero) - 2028-07-18
+Lemari Pendingin - PT Qualis Indonesia - 2028-07-18
+Lemari Pendingin - PT TUV Rheinland Indonesia - 2028-07-18
+Lemari Pendingin - Balai Standardisasi dan Pelayanan Jasa Industri (BPSJI) Surabaya - 2028-07-18
+Lemari Pendingin - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+Pengondisi Udara - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2029-12-24
+Pengondisi Udara - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2029-12-24
+Pengondisi Udara - PT Qualis Indonesia - 2029-12-24
+Pengondisi Udara - PT Sucofindo (Persero) - 2029-12-24
+Pengondisi Udara - PT TUV Rheinland Indonesia - 2029-12-24
+Pengondisi Udara - PT Solusi Sertifikasi Nasional Indonesia - 2029-12-24
+RDC - PT Integrita Global Sertifikat - 2026-06-13
+RDC - PT Qualis Indonesia - 2026-06-13
+RDC - PT Sucofindo - 2026-06-13
+RDC - PT TUV Rheinland - 2026-06-13
+RDC - PT Multicert Global Indonesia - 2026-06-13
+Televisi - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT) - 2026-06-13
+Televisi - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2026-06-13
+Televisi - PT Qualis Indonesia - 2026-06-13
+Televisi - PT Sucofindo - 2026-06-13
+Televisi - PT TUV Rheinland - 2026-06-13
+Televisi - PT UL International Indonesia - 2026-06-13
+
+Lab Uji records:
+LED Swabalast - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBS PKEBTKE), Kementerian ESDM - 2027-01-12
+LED Swabalast - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJI BBT), Kementerian Perindustrian - 2027-01-12
+LED Swabalast - Laboratorium Konversi Energi (LKE), Balai Riset dan Inovasi Nasional (BRIN) - 2027-01-12
+LED Swabalast - PT Qualis Indonesia - 2027-01-12
+LED Swabalast - PT Vertex Global Indonesia - 2027-01-12
+LED Swabalast - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2029-09-18
+LED Swabalast - Balai Pengujian Mutu Barang (BPMB) Direktorat Standardisasi dan Pengendalian Mutu Kementerian Perdagangan - 2029-09-18
+LED Swabalast - PT Sucofindo (Persero) – SBU Laboratorium - 2029-09-18
+LED Luminer - BBSPJIBBT, Kementerian Perindustrian - 2029-09-18
+LED Luminer - PT Qualis Indonesia - 2029-09-18
+LED Luminer - PT Vertex Global Indonesia - 2029-12-24
+Dispenser Air Minum - Balai Pengujian Mutu Barang (BPMB) Direktorat Standardisasi dan Pengendalian Mutu Kementerian Perdagangan - 2029-12-24
+Dispenser Air Minum - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2029-12-24
+Dispenser Air Minum - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSPKBTKE), Kementerian ESDM - 2027-12-24
+Dispenser Air Minum - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2027-12-24
+Dispenser Air Minum - PT Hartono Istana Teknologi - 2027-12-24
+Dispenser Air Minum - PT Panasonic Manufacturing Indonesia - 2027-12-24
+Dispenser Air Minum - PT Qualis Indonesia - 2027-12-24
+Dispenser Air Minum - PT Star Cosmos - 2027-12-24
+Dispenser Air Minum - PT Sucofindo (Persero) – SBU Laboratorium - 2027-12-24
+Dispenser Air Minum - PT TUV Rheinland Indonesia - 2027-12-24
+Dispenser Air Minum - PT Vertex Global Indonesia - 2027-12-24
+Penanak Nasi - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSPKBTKE), Kementerian ESDM - 2028-07-18
+Penanak Nasi - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2028-07-18
+Penanak Nasi - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2028-07-18
+Penanak Nasi - PT TUV Rheinland Indonesia - 2028-07-18
+Penanak Nasi - PT Qualis Indonesia - 2028-07-18
+Penanak Nasi - PT Hartono Istana Teknologi - 2028-07-18
+Penanak Nasi - PT Star Cosmos - 2028-07-18
+Penanak Nasi - PT Vertex Global Indonesia - 2028-07-18
+Penanak Nasi - Balai Pengujian Mutu Barang (BPMB) Direktorat Standardisasi dan Pengendalian Mutu Kementerian Perdagangan - 2029-12-24
+Kipas Angin - PT Sucofindo (Persero) – SBU Laboratorium - 2026-04-22
+Kipas Angin - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2028-08-06
+Kipas Angin - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2028-08-06
+Kipas Angin - PT Panasonic Manufacturing Indonesia - 2028-08-06
+Kipas Angin - PT Star Cosmos - 2028-08-06
+Kipas Angin - PT Vertex Global Indonesia - 2028-08-06
+Kipas Angin - PT Qualis Indonesia - 2029-12-24
+Kipas Angin - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSPKBTKE), Kementerian ESDM - 2029-12-24
+RDC - PT Qualis Indonesia - 2026-06-12
+RDC - PT Sucofindo (Persero) – SBU Laboratorium - 2026-06-12
+RDC - PT Hartono Istana Teknologi - 2026-06-12
+RDC - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2029-12-24
+Televisi - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2026-06-12
+Televisi - Balai Besar Survei dan Pengujian Ketenagalistrikan, Energi Baru, Terbarukan, dan Konservasi Energi (BBSPKBTKE), Kementerian ESDM - 2026-06-12
+Televisi - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - 2026-06-12
+Televisi - PT Hartono Istana Teknologi - 2026-06-12
+Televisi - PT Qualis Indonesia - 2026-06-12
+Televisi - PT Sucofindo (Persero) – SBU Laboratorium - 2026-06-12
+Televisi - PT TUV Rheinland Indonesia - 2026-06-12
+Televisi - PT UL Internasional Indonesia - 2026-06-12
+Televisi - PT Vertex Global Indonesia - 2029-12-24
+Lemari Pendingin - PT Sucofindo (Persero) – SBU Laboratorium - 2026-04-22
+Lemari Pendingin - PT Qualis Indonesia - 2028-07-18
+Lemari Pendingin - PT Hartono Istana Teknologi - 2028-07-18
+Lemari Pendingin - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT), Kementerian Perindustrian - 2029-12-24
+Pengondisi Udara - BBSPJIBBT Kementerian Perindustrian - 2029-12-24
+Pengondisi Udara - PT Hartono Istana Teknologi - 2029-12-24
+Pengondisi Udara - PT Panasonic Manufacturing Indonesia - 2029-12-24
+Pengondisi Udara - PT Qualis Indonesia - 2029-12-24
+Pengondisi Udara - PT TUV Rheinland Indonesia - 2029-12-24
+LED Tabung Swabalast - Balai Besar Survei dan Pengujian Ketenagalistrikan EBTKE (BBSP-KEBTKE) - Kementerian ESDM - 2027-01-13
+LED Tabung Swabalast - Balai Besar Standardisasi dan Pelayanan Jasa Industri Bahan dan Barang Teknik (BBSPJIBBT) Kementerian Perindustrian - 2027-01-13
+LED Tabung Swabalast - Laboratorium Konversi Energi (LKE) - BRIN - 2027-01-13
+LED Tabung Swabalast - PT Qualis Indonesia - 2027-01-13
+LED Tabung Swabalast - PT Vertex Global Indonesia - 2027-01-13
+LED Tabung Swabalast - Balai Standardisasi dan Pelayanan Jasa Industri (BSPJI) Surabaya - Kementerian Perindustrian - 2025-01-13
+LED Tabung Swabalast - Balai Pengujian Mutu Barang - Kementerian Perdagangan - 2025-01-13
+LED Tabung Swabalast - PT Sucofindo Central Laboratory - 2025-01-13

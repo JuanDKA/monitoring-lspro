@@ -47,7 +47,9 @@ except ImportError:
 
 # ---- Konfigurasi ----
 BOT_TOKEN  = os.getenv('TELEGRAM_BOT_TOKEN', '')
-CHAT_ID    = os.getenv('TELEGRAM_CHAT_ID', '')
+# Support multiple Chat ID, pisahkan dengan koma
+_raw_ids   = os.getenv('TELEGRAM_CHAT_IDS', '') or os.getenv('TELEGRAM_CHAT_ID', '')
+CHAT_IDS   = [cid.strip() for cid in _raw_ids.split(',') if cid.strip()]
 DATA_FILE  = os.path.join(os.path.dirname(__file__), 'data.json')
 
 # Threshold hari untuk "Segera Berakhir"
@@ -207,17 +209,28 @@ def send_telegram(token: str, chat_id: str, message: str) -> bool:
         resp   = requests.post(url, json=payload, timeout=15)
         result = resp.json()
         if result.get('ok'):
-            print(f"✅ Notifikasi berhasil dikirim! (message_id: {result['result']['message_id']})")
+            print(f"  -> Chat ID {chat_id}: OK (message_id: {result['result']['message_id']})")
             return True
         else:
-            print(f"❌ Gagal: {result.get('description', 'Unknown error')}")
+            print(f"  -> Chat ID {chat_id}: GAGAL - {result.get('description', 'Unknown error')}")
             return False
     except requests.exceptions.ConnectionError:
-        print("❌ Error: Tidak ada koneksi internet.")
+        print(f"  -> Chat ID {chat_id}: ERROR - Tidak ada koneksi internet.")
         return False
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"  -> Chat ID {chat_id}: ERROR - {e}")
         return False
+
+
+def send_to_all(token: str, chat_ids: list, message: str):
+    """Kirim ke semua Chat ID penerima."""
+    print(f"[>] Mengirim ke {len(chat_ids)} penerima...")
+    success = 0
+    for cid in chat_ids:
+        if send_telegram(token, cid, message):
+            success += 1
+    print(f"[OK] Terkirim ke {success}/{len(chat_ids)} penerima.")
+    return success
 
 
 # ============================================================
@@ -251,11 +264,12 @@ def main():
     if not BOT_TOKEN:
         print("ERROR: TELEGRAM_BOT_TOKEN belum diisi di file .env")
         sys.exit(1)
-    if not CHAT_ID:
-        print("ERROR: TELEGRAM_CHAT_ID belum diisi di file .env")
+    if not CHAT_IDS:
+        print("ERROR: TELEGRAM_CHAT_IDS belum diisi di file .env")
         sys.exit(1)
 
     print(f"[*] Membaca: {DATA_FILE}")
+    print(f"[*] Penerima: {len(CHAT_IDS)} orang ({', '.join(CHAT_IDS)})") 
     data      = load_data(DATA_FILE)
     all_items = enrich(data)
 
@@ -265,8 +279,8 @@ def main():
         print(f"[!] Segera berakhir : {segera_count} lembaga")
         print(f"[X] Sudah kadaluarsa: {kadaluarsa_count} lembaga")
         message = build_message_rekap(all_items)
-        print(f"\n[>] Mengirim rekap ke Telegram...")
-        send_telegram(BOT_TOKEN, CHAT_ID, message)
+        print(f"\n[>] Mengirim rekap ke {len(CHAT_IDS)} penerima...")
+        send_to_all(BOT_TOKEN, CHAT_IDS, message)
 
     else:
         new_entries = get_new_entries(all_items)
@@ -277,8 +291,8 @@ def main():
             for d in new_entries:
                 print(f"   -> [{d['tab_label']}] {d['nama']} ({d['kategori']})")
             message = build_message_otomatis(new_entries)
-            print(f"\n[>] Mengirim notifikasi ke Telegram...")
-            send_telegram(BOT_TOKEN, CHAT_ID, message)
+            print(f"\n[>] Mengirim notifikasi ke {len(CHAT_IDS)} penerima...")
+            send_to_all(BOT_TOKEN, CHAT_IDS, message)
 
     print("=" * 55)
 

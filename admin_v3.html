@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin (V3) — Manajemen Data LSPro & Lab Uji</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" class="sidebar-logo" title="Kembali ke website utama">
+        <div class="sidebar-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="sidebar-logo-text">
+          Monitoring<br>
+          <span class="sidebar-logo-sub">Admin Panel (V3)</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu</div>
+
+      <button class="nav-item active" id="nav-lspro" onclick="showPage('lspro')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span>Data LSPro</span>
+        <span class="nav-badge" id="badge-lspro">0</span>
+      </button>
+
+      <button class="nav-item" id="nav-labuji" onclick="showPage('labuji')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+        </svg>
+        <span>Data Lab Uji</span>
+        <span class="nav-badge" id="badge-labuji">0</span>
+      </button>
+
+      <button class="nav-item" id="nav-kategori" onclick="showPage('kategori')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+        <span>Kategori</span>
+        <span class="nav-badge" id="badge-kategori">0</span>
+      </button>
+
+      <div class="nav-section-label" style="margin-top:8px">Versi SK</div>
+      <a class="nav-item" href="admin.html" style="color:var(--blue-l)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        <span>← Kembali ke Admin Lama</span>
+      </a>
+
+      <div class="nav-section-label" style="margin-top:8px">Aksi</div>
+
+      <button class="nav-item" onclick="openPushModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        <span>Simpan & Push</span>
+      </button>
+
+      <a class="nav-item" href="index.html" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        <span>Lihat Website</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="server-status">
+        <div class="status-dot"></div>
+        <span>Server aktif — localhost:8787</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Data LSPro</div>
+      <div class="topbar-actions">
+        <div class="change-indicator" id="changeIndicator" style="display:none">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Ada perubahan belum di-push
+        </div>
+        <button class="btn btn-success" onclick="openPushModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Simpan & Push
+        </button>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+
+      <!-- Stat Row -->
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-box-icon blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </div>
+          <div><div class="stat-box-num" id="st-lspro">—</div><div class="stat-box-label">Total LSPro</div></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-icon green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+          </div>
+          <div><div class="stat-box-num" id="st-labuji">—</div><div class="stat-box-label">Total Lab Uji</div></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-icon orange">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div><div class="stat-box-num" id="st-kategori">—</div><div class="stat-box-label">Kategori</div></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-icon red">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div><div class="stat-box-num" id="st-segera">—</div><div class="stat-box-label">Segera Berakhir</div></div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: LSPRO / LABUJI ===== -->
+      <div id="page-lspro">
+        <div class="section-header">
+          <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Daftar LSPro
+          </div>
+          <button class="btn btn-primary" onclick="openForm('lspro')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah LSPro
+          </button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="search-lspro" placeholder="Cari nama lembaga..." oninput="renderTable('lspro')" />
+          </div>
+          <select class="admin-select" id="kat-lspro" onchange="renderTable('lspro')">
+            <option value="">Semua Kategori</option>
+          </select>
+          <select class="admin-select" id="status-lspro" onchange="renderTable('lspro')">
+            <option value="">Semua Status</option>
+            <option value="aktif">Masih Berlaku</option>
+            <option value="segera">Segera Berakhir</option>
+            <option value="kadaluarsa">Sudah Berakhir</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama Lembaga</th>
+                <th>Kategori</th>
+                <th>Mulai</th>
+                <th>Berakhir</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-lspro"></tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;font-size:0.78rem;color:var(--text-muted)" id="count-lspro"></div>
+      </div>
+
+      <!-- ===== PAGE: LAB UJI ===== -->
+      <div id="page-labuji" style="display:none">
+        <div class="section-header">
+          <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+            Daftar Lab Uji
+          </div>
+          <button class="btn btn-primary" onclick="openForm('labuji')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Lab Uji
+          </button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="search-labuji" placeholder="Cari nama laboratorium..." oninput="renderTable('labuji')" />
+          </div>
+          <select class="admin-select" id="kat-labuji" onchange="renderTable('labuji')">
+            <option value="">Semua Kategori</option>
+          </select>
+          <select class="admin-select" id="status-labuji" onchange="renderTable('labuji')">
+            <option value="">Semua Status</option>
+            <option value="aktif">Masih Berlaku</option>
+            <option value="segera">Segera Berakhir</option>
+            <option value="kadaluarsa">Sudah Berakhir</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama Laboratorium</th>
+                <th>Kategori</th>
+                <th>Mulai</th>
+                <th>Berakhir</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-labuji"></tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;font-size:0.78rem;color:var(--text-muted)" id="count-labuji"></div>
+      </div>
+
+      <!-- ===== PAGE: KATEGORI ===== -->
+      <div id="page-kategori" style="display:none">
+        <div class="section-header">
+          <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Manajemen Kategori
+          </div>
+          <button class="btn btn-primary" onclick="openAddKategori()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Kategori
+          </button>
+        </div>
+        <div id="kat-grid" class="kat-grid"></div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main -->
+</div><!-- /admin-layout -->
+
+<!-- ===== MODAL FORM LEMBAGA ===== -->
+<div class="modal-overlay" id="modalForm">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalFormTitle">Tambah Lembaga</h3>
+      <button class="modal-close" onclick="closeForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="formTab" />
+      <input type="hidden" id="formIdx" />
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label class="form-label">Nama Lembaga <span class="req">*</span></label>
+          <input type="text" class="form-control" id="f-nama" placeholder="Nama lengkap lembaga" />
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Alamat <span class="req">*</span></label>
+          <textarea class="form-control" id="f-alamat" rows="3" placeholder="Alamat lengkap + nomor telepon"></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Kategori Peralatan <span class="req">*</span></label>
+          <select class="form-control" id="f-kategori">
+            <option value="">-- Pilih Kategori --</option>
+            <option value="__new__">+ Tambah kategori baru...</option>
+          </select>
+          <input type="text" class="form-control" id="f-kategori-new" placeholder="Nama kategori baru" style="display:none;margin-top:6px" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mulai Berlaku <span class="req">*</span></label>
+          <input type="date" class="form-control" id="f-mulai" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Berakhir / Jangka Waktu <span class="req">*</span></label>
+          <input type="date" class="form-control" id="f-jangka" />
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Keterangan Akreditasi</label>
+          <textarea class="form-control" id="f-keterangan" rows="3" placeholder="Keterangan akreditasi, protokol, dll (opsional)"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeForm()">Batal</button>
+      <button class="btn btn-primary" onclick="saveForm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL PUSH ===== -->
+<div class="modal-overlay" id="modalPush">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>💾 Simpan & Push ke GitHub</h3>
+      <button class="modal-close" onclick="closePushModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px">
+        Data akan disimpan ke <code style="background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px">data.json</code> lalu langsung di-push ke GitHub.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Pesan Commit</label>
+        <input type="text" class="form-control" id="commitMsg" value="update: data LSPro & Lab Uji diperbarui via Admin Panel" />
+        <div class="form-hint">Deskripsi perubahan yang akan muncul di history GitHub</div>
+      </div>
+      <div class="push-log" id="pushLog"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closePushModal()">Batal</button>
+      <button class="btn btn-primary" id="btnSaveOnly" onclick="saveData()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+        Simpan Saja
+      </button>
+      <button class="btn btn-success" id="btnPush" onclick="saveAndPush()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Simpan & Push GitHub
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL KATEGORI ===== -->
+<div class="modal-overlay" id="modalKat">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-head">
+      <h3 id="modalKatTitle">Tambah Kategori</h3>
+      <button class="modal-close" onclick="closeKatModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nama Kategori <span class="req">*</span></label>
+        <input type="text" class="form-control" id="f-kat-name" placeholder="Contoh: Mesin Cuci" />
+        <input type="hidden" id="f-kat-old" />
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeKatModal()">Batal</button>
+      <button class="btn btn-primary" onclick="saveKategori()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="adminToast"></div>
+
+<script src="admin_v3.js"></script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+/* =============================================================
+   MONITORING LSPro & LAB UJI — Application Logic
+   ============================================================= */
+
+/* ---- Inline Data (generated from Excel) ---- */
+// Data diambil dari file Excel via Python script
+// Kategori LSPro: Penanak Nasi, LED Swabalast, LED Tabung Swabalast, Kipas Angin, Lemari Pendingin, Dispenser Air Minum, LED Luminer, Pengondisi Udara
+// Kategori Lab Uji: LED Swabalast, Penanak Nasi, Kipas Angin, Lemari Pendingin, Dispenser Air Minum, LED Luminer, Pengondisi Udara, Televisi, RDC
+
+const RAW_DATA = {
+  lspro: [],
+  lab_uji: [],
+  loaded: false
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {
+  activeTab: 'lspro',        // 'lspro' | 'labuji'
+  searchQuery: '',
+  filterKategori: '',
+  filterStatus: '',
+  activeCategory: '',
+  viewMode: 'grid',           // 'grid' | 'list'
+  data: [],
+  filteredData: []
+};
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  loadData();
+  updateFooterDate();
+
+  // Search debounce
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', debounce((e) => {
+    state.searchQuery = e.target.value.trim().toLowerCase();
+    document.getElementById('searchClear').style.display = state.searchQuery ? 'block' : 'none';
+    applyFilters();
+  }, 200));
+
+  // ---- Modal events (via addEventListener, bukan inline onclick) ----
+  const overlay  = document.getElementById('modalOverlay');
+  const modalBox = document.getElementById('modalBox');
+  const closeBtn = document.getElementById('modalCloseBtn');
+
+  // Klik tombol ✕
+  closeBtn.addEventListener('click', () => closeModal());
+
+  // Klik di luar modal (pada overlay gelap)
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  // Pastikan klik di dalam modal box tidak menutup
+  modalBox.addEventListener('click', (e) => e.stopPropagation());
+
+  // Tombol Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+    }
+  });
+});
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+function initTheme() {
+  const toggleBtn = document.getElementById('themeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const savedTheme = localStorage.getItem('theme');
+
+  // Default is light. Only set to dark if explicitly saved as dark.
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    moonIcon.style.display = 'block';
+    sunIcon.style.display = 'none';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+  });
+}
+
+/* ============================================================
+   DATA LOADING
+   ============================================================ */
+async function loadData() {
+  try {
+    const res = await fetch('data_v3.json?v=' + new Date().getTime());
+    if (!res.ok) throw new Error('Gagal memuat data.json');
+    const json = await res.json();
+    RAW_DATA.lspro    = json.lspro    || [];
+    RAW_DATA.lab_uji  = json.lab_uji  || [];
+    RAW_DATA.loaded   = true;
+
+    // Update last-update header
+    if (json.generated_at) {
+      document.getElementById('lastUpdate').textContent = `Diperbarui: ${json.generated_at}`;
+    }
+
+    switchTab(state.activeTab, false);
+  } catch (err) {
+    console.error(err);
+    showError('Gagal memuat data. Pastikan file data.json ada di folder yang sama.');
+  }
+}
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+function switchTab(tab, resetFiltersFlag = true) {
+  state.activeTab = tab;
+
+  // Update nav buttons
+  document.getElementById('nav-lspro').classList.toggle('active', tab === 'lspro');
+  document.getElementById('nav-labuji').classList.toggle('active', tab === 'labuji');
+
+  // Set data source
+  state.data = tab === 'lspro' ? RAW_DATA.lspro : RAW_DATA.lab_uji;
+
+  if (resetFiltersFlag) {
+    state.searchQuery   = '';
+    state.filterKategori = '';
+    state.filterStatus  = '';
+    state.activeCategory = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchClear').style.display = 'none';
+    document.getElementById('filterKategori').value = '';
+    document.getElementById('filterStatus').value  = '';
+  }
+
+  // Rebuild category filter options
+  buildCategoryFilter();
+  applyFilters();
+}
+
+/* ============================================================
+   BUILD CATEGORY FILTER & PILLS
+   ============================================================ */
+function buildCategoryFilter() {
+  const categoryCounts = {};
+  state.data.forEach(d => {
+    if (!categoryCounts[d.kategori]) categoryCounts[d.kategori] = 0;
+    categoryCounts[d.kategori]++;
+  });
+  
+  const categories = Object.keys(categoryCounts).sort();
+  const sel = document.getElementById('filterKategori');
+  sel.innerHTML = `<option value="">Kategori Peralatan (${state.data.length})</option>`;
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = `${cat} (${categoryCounts[cat]})`;
+    sel.appendChild(opt);
+  });
+}
+
+function setStatusFilter(status) {
+  document.getElementById('filterStatus').value = status;
+  applyFilters();
+}
+
+/* ============================================================
+   FILTERS & RENDERING
+   ============================================================ */
+function applyFilters() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Compute status & days remaining for each record
+  const withStatus = state.data.map(d => {
+    const end = d.jangka_waktu ? new Date(d.jangka_waktu) : null;
+    const start = d.mulai_berlaku ? new Date(d.mulai_berlaku) : null;
+    let daysLeft = null;
+    let status = 'aktif';
+
+    if (end) {
+      daysLeft = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+      if (daysLeft < 0)      status = 'kadaluarsa';
+      else if (daysLeft <= 60) status = 'segera';
+      else                    status = 'aktif';
+    }
+
+    return { ...d, end, start, daysLeft, status };
+  });
+
+  // Filter
+  let filtered = withStatus.filter(d => {
+    // Dropdown category filter
+    const selKat = document.getElementById('filterKategori').value;
+    if (selKat && d.kategori !== selKat) return false;
+    // Status filter
+    const selStatus = document.getElementById('filterStatus').value;
+    if (selStatus && d.status !== selStatus) return false;
+    // Search
+    if (state.searchQuery) {
+      const haystack = `${d.nama} ${d.alamat} ${d.kategori} ${d.keterangan}`.toLowerCase();
+      if (!haystack.includes(state.searchQuery)) return false;
+    }
+    return true;
+  });
+
+  // Update stat cards visual active state
+  const selStatus = document.getElementById('filterStatus').value;
+  document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active-total', 'active-aktif', 'active-segera', 'active-kadaluarsa'));
+  if (selStatus === '') document.getElementById('stat-total').classList.add('active-total');
+  else if (selStatus === 'aktif') document.getElementById('stat-aktif').classList.add('active-aktif');
+  else if (selStatus === 'segera') document.getElementById('stat-segera').classList.add('active-segera');
+  else if (selStatus === 'kadaluarsa') document.getElementById('stat-kadaluarsa').classList.add('active-kadaluarsa');
+
+  state.filteredData = filtered;
+
+  updateStats(withStatus);
+  renderCards(filtered);
+  document.getElementById('resultsCount').textContent = `${filtered.length} data ditemukan`;
+}
+
+/* ============================================================
+   UPDATE STATS
+   ============================================================ */
+function updateStats(allData) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const total      = allData.length;
+  const kadaluarsa = allData.filter(d => d.status === 'kadaluarsa').length;
+  const segera     = allData.filter(d => d.status === 'segera').length;
+  const aktif      = allData.filter(d => d.status === 'aktif').length;
+
+  animateNumber('statTotal',      total);
+  animateNumber('statAktif',      aktif);
+  animateNumber('statSegera',     segera);
+  animateNumber('statKadaluarsa', kadaluarsa);
+}
+
+/* ============================================================
+   RENDER CARDS
+   ============================================================ */
+function renderCards(data) {
+  const grid = document.getElementById('dataGrid');
+  const emptyState = document.getElementById('emptyState');
+  const loadingState = document.getElementById('loadingState');
+
+  // Hide loading
+  if (loadingState) loadingState.style.display = 'none';
+
+  if (data.length === 0) {
+    grid.innerHTML = '';
+    emptyState.style.display = 'flex';
+    return;
+  }
+  emptyState.style.display = 'none';
+
+  grid.innerHTML = '';
+  
+  const selKat = document.getElementById('filterKategori').value;
+  
+  if (!selKat) {
+    // Jika tampil semua kategori, urutkan berdasarkan kategori lalu nama
+    const sortedData = [...data].sort((a, b) => {
+      if (a.kategori < b.kategori) return -1;
+      if (a.kategori > b.kategori) return 1;
+      return a.nama.localeCompare(b.nama);
+    });
+
+    let currentCategory = null;
+    sortedData.forEach((item, idx) => {
+      if (item.kategori !== currentCategory) {
+        currentCategory = item.kategori;
+        const catCount = sortedData.filter(d => d.kategori === currentCategory).length;
+        
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `<h3>${escapeHtml(currentCategory)} <span class="header-count">(${catCount} Peralatan)</span></h3>`;
+        grid.appendChild(header);
+      }
+      grid.appendChild(createCard(item, idx));
+    });
+  } else {
+    // Jika kategori spesifik dipilih, tampilkan seperti biasa
+    data.forEach((item, idx) => {
+      grid.appendChild(createCard(item, idx));
+    });
+  }
+}
+
+function createCard(item, idx) {
+  const el = document.createElement('article');
+  el.className = `data-card status-${item.status}`;
+  el.style.animationDelay = `${Math.min(idx, 30) * 30}ms`;
+  el.setAttribute('role', 'listitem');
+  el.setAttribute('tabindex', '0');
+  el.setAttribute('aria-label', `${item.nama}, status ${item.status}`);
+
+  const endFormatted   = item.end   ? formatDate(item.end)   : '—';
+  const startFormatted = item.start ? formatDate(item.start) : '—';
+
+  const statusLabel = {
+    aktif: 'Masih Berlaku',
+    segera: 'Segera Berakhir',
+    kadaluarsa: 'Sudah Berakhir'
+  }[item.status];
+
+  const daysText = item.daysLeft !== null
+    ? (item.daysLeft < 0
+        ? `${Math.abs(item.daysLeft)} hari lalu`
+        : `${item.daysLeft} hari lagi`)
+    : '—';
+
+  // Progress: how far through the appointment period
+  let progressPct = 50;
+  if (item.start && item.end) {
+    const total = item.end - item.start;
+    const elapsed = new Date() - item.start;
+    progressPct = Math.max(0, Math.min(100, Math.round((elapsed / total) * 100)));
+  }
+
+  el.innerHTML = `
+    <div class="card-header">
+      <span class="card-no">#${item.no || idx + 1}</span>
+      <span class="status-badge badge-${item.status}">${statusLabel}</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-nama">${escapeHtml(item.nama)}</h3>
+      <div class="card-category">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        ${escapeHtml(item.kategori)}
+      </div>
+      <div class="card-dates">
+        <div class="date-item">
+          <div class="date-label">Mulai Berlaku</div>
+          <div class="date-value">${startFormatted}</div>
+        </div>
+        <div class="date-item">
+          <div class="date-label">Berakhir</div>
+          <div class="date-value">${endFormatted}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="days-remaining days-${item.status}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="days-number">${daysText}</span>
+      </span>
+      <div class="progress-bar" title="Progress masa berlaku: ${progressPct}%">
+        <div class="progress-fill fill-${item.status}" style="width: ${item.status === 'kadaluarsa' ? 100 : progressPct}%"></div>
+      </div>
+      <button class="card-detail-btn" onclick="openModal(${idx})" aria-label="Lihat detail ${escapeHtml(item.nama)}">
+        Detail
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  `;
+
+  el.addEventListener('click', (e) => {
+    if (!e.target.closest('.card-detail-btn')) openModal(idx);
+  });
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(idx); }
+  });
+
+  return el;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(idx) {
+  const item = state.filteredData[idx];
+  if (!item) return;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const statusLabel = {
+    aktif: 'Masih Berlaku',
+    segera: 'Segera Berakhir',
+    kadaluarsa: 'Sudah Berakhir'
+  }[item.status];
+
+  const endFormatted   = item.end   ? formatDate(item.end)   : '—';
+  const startFormatted = item.start ? formatDate(item.start) : '—';
+
+  const daysText = item.daysLeft !== null
+    ? (item.daysLeft < 0
+        ? `${Math.abs(item.daysLeft)} hari yang lalu`
+        : `${item.daysLeft} hari lagi`)
+    : '—';
+
+  let progressPct = 50;
+  if (item.start && item.end) {
+    const total   = item.end - item.start;
+    const elapsed = new Date() - item.start;
+    progressPct   = Math.max(0, Math.min(100, Math.round((elapsed / total) * 100)));
+  }
+
+  // Badge
+  const badge = document.getElementById('modalBadge');
+  badge.className = `modal-badge badge-${item.status}`;
+  badge.textContent = statusLabel;
+
+  document.getElementById('modalTitle').textContent    = item.nama;
+  document.getElementById('modalCategory').textContent = `📦 ${item.kategori}`;
+
+  const tabType = state.activeTab === 'lspro'
+    ? 'Lembaga Sertifikasi Produk (LSPro)'
+    : 'Laboratorium Pengujian';
+
+  document.getElementById('modalBody').innerHTML = `
+    <div>
+      <div class="modal-section-title">Informasi Masa Berlaku</div>
+      <div class="modal-info-grid">
+        <div class="modal-info-item">
+          <div class="modal-info-label">Mulai Berlaku</div>
+          <div class="modal-info-value">${startFormatted}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Berakhir</div>
+          <div class="modal-info-value">${endFormatted}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Sisa Masa Berlaku</div>
+          <div class="modal-info-value" style="color:${item.status==='aktif'?'var(--green-l)':item.status==='segera'?'var(--orange-l)':'var(--red-l)'}">
+            ${daysText}
+          </div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Jenis Lembaga</div>
+          <div class="modal-info-value" style="font-size:0.8rem">${tabType}</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="modal-section-title">Timeline Masa Berlaku</div>
+      <div class="modal-timeline">
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">
+          <span>Mulai: ${startFormatted}</span>
+          <span>Berakhir: ${endFormatted}</span>
+        </div>
+        <div class="timeline-bar">
+          <div class="timeline-fill fill-${item.status}" style="width:${item.status==='kadaluarsa'?100:progressPct}%"></div>
+        </div>
+        <div style="text-align:center;font-size:0.8rem;color:var(--text-muted)">
+          Progress: ${item.status==='kadaluarsa'?'Sudah berakhir':progressPct+'% masa berlaku telah digunakan'}
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="modal-section-title">Alamat</div>
+      <div class="modal-alamat">${escapeHtml(item.alamat).replace(/\n/g, '<br>')}</div>
+    </div>
+
+    ${item.keterangan ? `
+    <div>
+      <div class="modal-section-title">Keterangan Akreditasi</div>
+      <div class="modal-keterangan">${escapeHtml(item.keterangan).replace(/\n/g, '<br>')}</div>
+    </div>` : ''}
+  `;
+
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+function clearSearch() {
+  state.searchQuery = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  applyFilters();
+}
+
+function resetFilters() {
+  state.searchQuery    = '';
+  state.filterKategori = '';
+  state.filterStatus   = '';
+  state.activeCategory = '';
+  document.getElementById('searchInput').value    = '';
+  document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('filterKategori').value = '';
+  document.getElementById('filterStatus').value   = '';
+  applyFilters();
+}
+
+function setView(mode) {
+  state.viewMode = mode;
+  const grid = document.getElementById('dataGrid');
+  grid.classList.toggle('list-view', mode === 'list');
+  document.getElementById('viewGrid').classList.toggle('active', mode === 'grid');
+  document.getElementById('viewList').classList.toggle('active', mode === 'list');
+}
+
+/* ============================================================
+   EXPORT EXCEL
+   ============================================================ */
+function exportToExcel() {
+  if (state.filteredData.length === 0) {
+    alert("Tidak ada data untuk di-export.");
+    return;
+  }
+
+  const dataToExport = state.filteredData.map((d, index) => {
+    return {
+      "No": index + 1,
+      "Nama Lembaga": d.nama,
+      "Kategori / Peralatan": d.kategori,
+      "Mulai Berlaku": d.start ? formatDate(d.start) : '-',
+      "Berakhir": d.end ? formatDate(d.end) : '-',
+      "Sisa Masa Berlaku": d.daysLeft !== null ? (d.daysLeft < 0 ? `${Math.abs(d.daysLeft)} hari lalu` : `${d.daysLeft} hari lagi`) : '-',
+      "Status": d.status === 'aktif' ? 'Masih Berlaku' : (d.status === 'segera' ? 'Segera Berakhir' : 'Sudah Berakhir'),
+      "Alamat": d.alamat || '-',
+      "Keterangan": d.keterangan || '-'
+    };
+  });
+
+  const ws = XLSX.utils.json_to_sheet(dataToExport);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Data");
+  
+  const tabName = state.activeTab === 'lspro' ? 'LSPro' : 'Lab_Uji';
+  const filterStatus = document.getElementById('filterStatus').options[document.getElementById('filterStatus').selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_');
+  const dateStr = new Date().toISOString().slice(0,10);
+  
+  XLSX.writeFile(wb, `Data_${tabName}_${filterStatus}_${dateStr}.xlsx`);
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+function formatDate(date) {
+  if (!date) return '—';
+  const d = new Date(date);
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+function animateNumber(elId, target) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = parseInt(el.textContent) || 0;
+  const duration = 600;
+  const startTime = performance.now();
+  const step = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(start + (target - start) * ease);
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function updateFooterDate() {
+  const today = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  if(document.getElementById('footerDate')) document.getElementById('footerDate').textContent = today.toLocaleDateString('id-ID', opts);
+}
+
+function showError(msg) {
+  const grid = document.getElementById('dataGrid');
+  grid.innerHTML = `
+    <div class="loading-state" style="color:var(--red-l)">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <p>${msg}</p>
+    </div>
+  `;
+}
+
+
+/* ============================================================
+   TELEGRAM NOTIFICATION
+   ============================================================ */
+
+/**
+ * Ambil semua data (LSPro + Lab Uji) yang statusnya 'segera' atau 'kadaluarsa'
+ */
+function getAlertItems() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const processData = (dataArr, tabLabel) => dataArr.map(d => {
+    const end   = d.jangka_waktu ? new Date(d.jangka_waktu) : null;
+    const start = d.mulai_berlaku ? new Date(d.mulai_berlaku) : null;
+    let daysLeft = null;
+    let status = 'aktif';
+    if (end) {
+      daysLeft = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+      if (daysLeft < 0)        status = 'kadaluarsa';
+      else if (daysLeft <= 60) status = 'segera';
+    }
+    return { ...d, end, start, daysLeft, status, tabLabel };
+  }).filter(d => d.status === 'segera' || d.status === 'kadaluarsa');
+
+  const lsproItems  = processData(RAW_DATA.lspro,   'LSPro');
+  const labujiItems = processData(RAW_DATA.lab_uji, 'Lab Uji');
+  return [...lsproItems, ...labujiItems].sort((a, b) => (a.daysLeft ?? 999) - (b.daysLeft ?? 999));
+}
+
+/* ---- Telegram Modal ---- */
+function openTelegramModal() {
+  const saved = getTelegramConfig();
+  document.getElementById('tg-token').value  = saved.token   || '';
+  document.getElementById('tg-chatid').value = saved.chatIds || '';
+  document.getElementById('tgModal').classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('tg-status').textContent = '';
+  document.getElementById('tg-status').className = 'tg-status-msg';
+}
+
+function closeTelegramModal() {
+  document.getElementById('tgModal').classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+function getTelegramConfig() {
+  return {
+    token:   localStorage.getItem('tg_token')   || '',
+    chatIds: localStorage.getItem('tg_chatids') || localStorage.getItem('tg_chatid') || ''
+  };
+}
+
+function saveTelegramConfig() {
+  const token   = document.getElementById('tg-token').value.trim();
+  const chatIds = document.getElementById('tg-chatid').value.trim();
+  if (!token || !chatIds) {
+    showTgStatus('⚠️ Token dan Chat ID wajib diisi.', 'error');
+    return;
+  }
+  localStorage.setItem('tg_token',   token);
+  localStorage.setItem('tg_chatids', chatIds);
+  // Hapus key lama jika ada
+  localStorage.removeItem('tg_chatid');
+  const count = chatIds.split(',').filter(s => s.trim()).length;
+  showTgStatus(`✅ Konfigurasi tersimpan! (${count} penerima)`, 'success');
+}
+
+function showTgStatus(msg, type) {
+  const el = document.getElementById('tg-status');
+  el.textContent = msg;
+  el.className = 'tg-status-msg tg-status-' + type;
+}
+
+/* ---- Kirim Notifikasi ke semua Chat ID ---- */
+async function sendTelegramNotification() {
+  const { token, chatIds } = getTelegramConfig();
+  const idList = chatIds.split(',').map(s => s.trim()).filter(Boolean);
+
+  if (!token || idList.length === 0) {
+    openTelegramModal();
+    showTgStatus('⚠️ Harap isi Token dan Chat ID terlebih dahulu.', 'error');
+    return;
+  }
+  if (!RAW_DATA.loaded) {
+    alert('Data belum selesai dimuat. Coba lagi sesaat lagi.');
+    return;
+  }
+
+  const items      = getAlertItems();
+  const today      = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const segera     = items.filter(d => d.status === 'segera');
+  const kadaluarsa = items.filter(d => d.status === 'kadaluarsa');
+
+  let msg = `🔔 *Monitoring LSPro & Lab Uji ESDM*\n📅 ${today}\n\n`;
+
+  if (items.length === 0) {
+    msg += `✅ Tidak ada lembaga yang akan segera berakhir atau sudah kadaluarsa.`;
+  } else {
+    msg += `📊 *Ringkasan:*\n`;
+    msg += `⚠️ Segera Berakhir (≤60 hari): *${segera.length} lembaga*\n`;
+    msg += `🔴 Sudah Berakhir: *${kadaluarsa.length} lembaga*\n`;
+
+    if (segera.length > 0) {
+      msg += `\n━━━━━━━━━━━━━━━━━━━━\n⚠️ *SEGERA BERAKHIR:*\n━━━━━━━━━━━━━━━━━━━━\n`;
+      segera.slice(0, 15).forEach(d => {
+        msg += `\n📌 [${d.tabLabel}] *${d.nama}*\n   📦 ${d.kategori}\n   ⏰ ${d.end ? formatDate(d.end) : '—'} (${d.daysLeft} hari lagi)\n`;
+      });
+      if (segera.length > 15) msg += `\n   ...dan ${segera.length - 15} lainnya.\n`;
+    }
+
+    if (kadaluarsa.length > 0) {
+      msg += `\n━━━━━━━━━━━━━━━━━━━━\n🔴 *SUDAH BERAKHIR:*\n━━━━━━━━━━━━━━━━━━━━\n`;
+      kadaluarsa.slice(0, 10).forEach(d => {
+        msg += `\n❌ [${d.tabLabel}] *${d.nama}*\n   📦 ${d.kategori}\n   📅 ${d.end ? formatDate(d.end) : '—'} (${Math.abs(d.daysLeft)} hari lalu)\n`;
+      });
+      if (kadaluarsa.length > 10) msg += `\n   ...dan ${kadaluarsa.length - 10} lainnya.\n`;
+    }
+  }
+
+  const btn = document.getElementById('btnKirimTelegram');
+  const origHTML = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = `⏳ Mengirim ke ${idList.length} orang...`; }
+
+  // Kirim ke semua Chat ID secara paralel
+  try {
+    const results = await Promise.all(idList.map(chatId =>
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+      }).then(r => r.json()).then(d => ({ chatId, ok: d.ok, desc: d.description }))
+        .catch(e => ({ chatId, ok: false, desc: e.message }))
+    ));
+
+    const success = results.filter(r => r.ok).length;
+    const failed  = results.filter(r => !r.ok);
+
+    if (failed.length === 0) {
+      showToast(`✅ Notifikasi dikirim ke ${success} penerima!`);
+    } else {
+      const failIds = failed.map(r => r.chatId).join(', ');
+      showToast(`⚠️ Terkirim ${success}/${idList.length}. Gagal: ${failIds}`, true);
+      console.error('Telegram errors:', failed);
+    }
+  } catch (err) {
+    showToast('❌ Error koneksi: ' + err.message, true);
+    console.error(err);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
+  }
+}
+
+/* ---- Toast ---- */
+function showToast(msg, isError = false) {
+  let toast = document.getElementById('tgToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'tgToast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.className = 'tg-toast ' + (isError ? 'tg-toast-error' : 'tg-toast-success');
+  toast.classList.add('tg-toast-show');
+  setTimeout(() => toast.classList.remove('tg-toast-show'), 4500);
+}
+
